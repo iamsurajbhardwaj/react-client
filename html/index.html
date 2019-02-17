@@ -10,23 +10,117 @@
     <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <div class="co-container">
-        <div class="co-container-first-row">
-            <div class="co-container-FR-checkout">
-                    <div class="co-container-FR-checkout--active">Checkout</div>
+    <div class="checkout-page">
+        <div class="checkout-menu">
+            <div class="co-heading bold--active">Checkout</div>
+            <div class="co-shipping">
+                <div id="breadcrumb">
+                    <span>Shipping</span>
+                    <span class="bold--active">Payment Method</span>
+                    <span>Confirmation</span>
+                </div>
             </div>
-            <div class="co-container-FR-shipping">
-                <span>Shipping</span>
-                <span class="co-container-FR-shipping--active">Payment Method</span>
-                <span>Confirmation</span>
-            </div>
-            <div class="co-container-FR-window-close">
-                <div class="fa fa-window-close"></div>
+            <div class="co-window-close">
+                <span class="fa fa-window-close"></span>
             </div>
         </div>
-        <div class="co-container-second-row">
-            <span class="co-container-SR-payment-block">Payment Block</span>
-            <span class="co-container-SR-cart-block">Cart Block</span>
+        <div class="border--active"></div>
+        <div class="checkout-method">
+            <div class="co-payment-block">
+                <span class="co-payment-heading"> Wallet</span>
+                <div class="border--active"></div>
+                <div class="co-payment-card">
+                    <div class="card-with-text">
+                        <img class="card-image" src="images/cards/discover.png" alt="discover Network">
+                        <span>Ending with 8899</span>
+                    </div>
+                    <div class="card-with-text card--active">
+                        <img class="card-image" src="images/cards/mastercard.png" alt="MasterCard">
+                        <span>Ending with 8899</span>
+                    </div>
+                    <div class="card-with-text">
+                        <img class="card-image" src="images/cards/visa.png" alt="VISA">
+                        <span>Ending with 8899</span>
+                    </div>
+                </div>
+                <span class="co-newCard-heading"> New Card</span>
+                <div class="border--active"></div>
+                <div class="new-card-entry">
+                    <input class="new-card-input" type="text" placeholder="Name on Card">
+                    <input class="new-card-input" type="text" placeholder="XXXX-XXXX-XXXX-XXXX">
+                    <div class="input-expiry input-expiry--margin">
+                        <input class="new-card-input-small" type="text" placeholder="MM/YY">
+                        <input class="new-card-input-small" type="text" placeholder="CVV">
+                    </div>
+                    <button class="button--green">continue</button>
+                </div>
+            </div>
+            <div class="co-cart-block"> 
+                <div class="co-cart-products">
+                    <div class="product-list">
+                        <img class="product-image"src="images/products/mobile-holder.jpg" alt="Mobile Holder">
+                        <div class="product-description">
+                            <p class="product-name--active bold--active">Mobile Holder</p>
+                            <p class="cost-align--active">$ 10.00</p>
+                            <p class="bold--active">Black</p>
+                            <p>Quantity: 1</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="border--active"></div>
+                    <div class="product-list">
+                        <img class="product-image"src="images/products/rado.jpg" alt="Rado Watch">
+                        <div class="product-description">
+                            <p class="product-name--active bold--active">Rado Watch</p>
+                            <p class="cost-align--active">$ 10.00</p>
+                            <p class="bold--active">Black</p>
+                            <p>Quantity: 1</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="border--active"></div>
+                    <div class="product-list">
+                        <img class="product-image"src="images/products/usb-c-2-micro.jpeg" alt="C type to Micro Convertor">
+                        <div class="product-description">
+                            <p class="product-name--active bold--active">C type to Micro Convertor</p>
+                            <p class="cost-align--active">$ 10.00</p>
+                            <p class="bold--active">Black</p>
+                            <p>Quantity: 1</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="border--active"></div>
+                    <div class="product-list">
+                        <img class="product-image"src="images/products/hard-case.jpg" alt="Mobile Case">
+                        <div class="product-description">
+                            <p class="product-name--active bold--active">Mobile Case</p>
+                            <p class="cost-align--active">$ 10.00</p>
+                            <p class="bold--active">Black</p>
+                            <p>Quantity: 1</p>
+                        </div>
+                    </div>
+                    <div class="checkout-amount">
+                        <hr>
+                        <div class="total-amount">
+                            <p class="sub-total">Sub Total</p>
+                            <p class="amount">$ 100.00</p>
+                        </div>
+                        <div class="total-amount">
+                            <p class="sub-total">Shipping</p>
+                            <p class="amount">$ 10.00</p>
+                        </div>
+                        <div class="total-amount">
+                            <p class="sub-total">Taxes</p>
+                            <p class="amount">$ 5.00</p>
+                        </div>
+                        <hr>
+                        <div class="total-amount">
+                            <p class="sub-total">Total</p>
+                            <p class="amount">$ 115.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

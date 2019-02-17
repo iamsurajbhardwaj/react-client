@@ -16,11 +16,11 @@ html {
     box-shadow: 3px 7px 15px grey;
     margin: 5%;
     background-color: white;
+    flex-wrap: wrap;
 }
 .checkout-menu {
     display: flex;
     padding: 1%;
-    flex-wrap: wrap;
 }
 .checkout-menu >* {
     flex: 1;
@@ -39,10 +39,7 @@ html {
     display: flex;
     flex-wrap: wrap;
 }
-.co-payment-block {
-    flex: 2;
-    padding: 1%;
-}
+
 .co-payment-card {
     display: flex;
     padding: 3%;
@@ -67,7 +64,6 @@ html {
     flex-direction: column;
     align-items: center;
     margin-top: 15px;
-    flex-wrap: wrap;
 }
 .input-expiry--margin {
     display: flex;
@@ -105,14 +101,20 @@ button {
     background-color: #4CAF50;
     color: white; 
 } 
+.co-payment-block {
+    flex: 2;
+    padding: 1%;
+}
 .co-cart-block {
     flex: 1;
+    flex-wrap: wrap;
     padding: 1%;
     background-color: #EEEEEF;
 }
 .product-image {
-    width: 50px;
-    height: 50px;
+    width: 10%;
+    height: 10%;
+    flex: 1;
     border: 3px solid gray;
 }
 .co-cart-products {
@@ -121,6 +123,7 @@ button {
 }
 .product-list {
     display: flex;
+    /* flex-wrap: wrap; */
     flex-direction: row;
     padding: 1%;
 }
@@ -128,21 +131,25 @@ button {
     text-align: right
 }
 .cost-align--active {
-    margin-left: 400px;
+    /* margin-left: 87%; */
     font-size: 10px;
+    /* flex: 1; */
+    text-align: right;
 }
 .product-description {
     font-size: 10px;
-    padding-left: 5px;
+    flex: 9;
+    flex-wrap: wrap;
+    padding-left: 1%;
 }
 .product-name--active{
     font-size:15px;
-    padding-left: 5px;
+    padding-left: 1%;
 }
 .checkout-amount {
     display: flex;
     flex-direction: column;
-    padding-top: 70px;
+    padding-top: 15%;
 }
 .total-amount {
     display: flex;
@@ -151,5 +158,52 @@ button {
     font-size: 12px;
 }
 hr { 
-    width: 500px;
+    width: 95%;
 } 
+@media only screen and (min-width: 992px) {
+    .checkout-page {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    .co-payment-block {
+        flex: 3;
+    }
+    .co-cart-block {
+        flex: 2;
+    }
+}
+@media only screen and (max-width: 992px) {
+    .checkout-page {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    .co-payment-block {
+        flex: 1;
+    }
+    .co-cart-block {
+        flex: 1;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .checkout-method {
+        flex-direction: column;
+    }
+    .co-payment-block {
+        order: 2;
+    }
+    .co-cart-block {
+        order: 1;
+    }
+}
+@media only screen and (max-width: 400px) {
+    .co-payment-card {
+        flex-direction: column;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .co-shipping {
+        display: none;
+    }
+}
