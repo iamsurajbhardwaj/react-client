@@ -1,11 +1,16 @@
 const textFieldStyle = {
-  margin: '40px',
-  border: '5px solid pink',
-  borderRadius: '20px',
-  display: 'flex',
+  base: {
+    padding: '8px',
+    border: '1px solid',
+    borderRadius: '5px',
+  },
+  error: {
+    borderColor: 'red',
+  },
+  label: {
+    fontWeight: 'bold',
+    fontSize: '12px',
+  },
 };
-// const pStyle = {
-//   fontSize: '15px',
-//   textAlign: 'center',
-// };
+
 export default textFieldStyle;
