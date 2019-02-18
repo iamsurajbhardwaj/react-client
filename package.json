@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "prop-types": "^15.7.2",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-scripts": "2.1.5"
@@ -13,8 +14,8 @@
   },
   "scripts": {
     "commit": "npx git-cz",
-    "lint": "eslint src/",
-    "lint:fix": "eslint src/App.jsx --fix",
+    "lint": "node_modules/eslint/bin/eslint.js src/",
+    "lint:fix": "eslint src/ --fix",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
