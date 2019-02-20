@@ -55,7 +55,7 @@ class Slider extends React.Component {
     const imagePath = banner ? banner[index] : defaultBanner;
     return (
       <div style={{ textAlign: 'center' }}>
-        <img src={imagePath} alt="xyz" {...rest} style={{ height: '200px' }} />
+        <img src={imagePath} alt="xyz" {...rest} altText={altText} height={height} />
       </div>
     );
   }
