@@ -67,6 +67,14 @@ export const schema = yup.object().shape({
     .string()
     .required().label('Role'),
 });
+
+export const schema1 = yup.object().shape({
+  name: yup.string().min(3).required().label('Name'),
+  email: yup.string().email().required().label('Email'),
+  password: yup.string().required().label('Password'),
+  confirmPassword: yup.string().required().label('Confirm password'),
+});
+
 export const state = {
   name: '',
   sport: '',
