@@ -74,17 +74,17 @@ export const state = {
   errors: {
     name: '',
     sport: '',
-    role: '',
+    role: 'Role is required field.',
   },
   isTouched: {
     name: false,
     sport: false,
-    role: false,
+    role: true,
   },
   hasError: {
     name: false,
     sport: false,
-    role: false,
+    role: true,
   },
 };
 export const mainStyle = {
