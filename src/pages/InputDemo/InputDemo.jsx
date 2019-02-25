@@ -10,6 +10,11 @@ class InputDemo extends React.Component {
 
   handleChange = field => (event) => {
     const { isTouched } = this.state;
+    if (field === 'sport') {
+      this.setState({
+        role: '',
+      });
+    }
     this.setState({
       [field]: event.target.value,
       isTouched: { ...isTouched, [field]: true },
