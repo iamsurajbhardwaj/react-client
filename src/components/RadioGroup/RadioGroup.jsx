@@ -6,27 +6,11 @@ import style from './style';
 class TextField extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: '' };
-    console.log('constructor');
-  }
-
-  // componentDidMount() {
-  //   console.log('Didmount');
-  //   this.setState({
-  //   });
-  // }
-
-  eventChangeHandler = (event) => {
-    this.setState({
-      value: event.target.value,
-    });
+    this.state = { };
   }
 
   render() {
     const { error, label, options, ...rest } = this.props;
-    const errorStyle = (error) ? style.error : {};
-    const { value } = this.state;
-    console.log('render>>>', value);
     if (!options) return '';
     return (
       <>
@@ -42,16 +26,18 @@ class TextField extends React.Component {
         {
           options.map(response => (
             // eslint-disable-next-line jsx-a11y/label-has-for
-            <label onClick={this.eventChangeHandler}>
+            <label key={response.value}>
               <input
                 type="radio"
                 {...rest}
                 key={response.value}
                 name="Sports"
                 value={response.label}
-                style={{ ...style.base, ...errorStyle }}
+                style={{ ...style.base }}
               />
-              {response.value}
+              <span style={{ cursor: 'pointer' }}>
+                {response.value}
+              </span>
             </label>
           ))
         }
@@ -64,15 +50,12 @@ TextField.propTypes = {
   error: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  // onblur: PropTypes.func.isRequired,
   options: PropTypes.arrayOf,
 };
 TextField.defaultProps = {
   error: '',
   label: 'Please Select',
   options: [],
-  // value: '',
-  // onChange: () => {},
 };
 export default TextField;

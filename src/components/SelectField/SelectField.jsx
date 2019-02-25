@@ -6,20 +6,10 @@ class SelectField extends React.Component {
   constructor(props) {
     super(props);
     this.state = { };
-    console.log('constructor');
   }
 
-  // componentDidMount() {
-  //   console.log('Didmount');
-  //   this.setState({
-  //   });
-  // }
-
-  // eventChangeHandler = (event) => {
-  //   this.setState({
-  //     value: event.target.value,
-  //   });
-  // }
+  componentDidMount() {
+  }
 
   render() {
     const {
@@ -29,28 +19,25 @@ class SelectField extends React.Component {
       defaultText,
       ...rest
     } = this.props;
-    // const errorStyle = (error) ? style.error : {};
-    const { value } = this.state;
-    console.log('render>>>', value);
     return (
-      <div>
+      <>
         {(label) ? (
           <div style={{ ...style.label }}>
             {label}
           </div>
         ) : ''}
-        <div>
+        <>
           <select {...rest} style={{ ...style.base }}>
             <option value="">{defaultText}</option>
             {
               options.map(item => (
-                <option value={item.label}>{item.label}</option>
+                <option key={item.label} value={item.label}>{item.label}</option>
               ))
             }
           </select>
-        </div>
-        {(error) ? <info style={{ color: 'red', fontSize: '14px' }}>{error}</info> : ''}
-      </div>
+        </>
+        {(error) ? <span style={{ color: 'red', fontSize: '14px' }}>{error}</span> : ''}
+      </>
     );
   }
 }
@@ -59,8 +46,7 @@ SelectField.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf,
+  options: PropTypes.arrayOf(PropTypes.shape({ label: PropTypes.string, value: PropTypes.string })),
   defaultText: PropTypes.string,
 };
 SelectField.defaultProps = {
@@ -68,7 +54,5 @@ SelectField.defaultProps = {
   label: 'Please Choose',
   options: [],
   defaultText: 'Select',
-  // value: '',
-  // onChange: () => {},
 };
 export default SelectField;

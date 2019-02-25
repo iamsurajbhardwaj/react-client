@@ -5,24 +5,12 @@ import textFieldStyle from './style';
 class TextField extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: '' };
-  }
-
-  componentDidMount() {
-    this.setState({
-    });
-  }
-
-  eventChangeHandler = (event) => {
-    this.setState({
-      value: event.target.value,
-    });
+    this.state = { };
   }
 
   render() {
     const { error, label, ...rest } = this.props;
     const errorStyle = (error) ? textFieldStyle.error : {};
-    const { value } = this.state;
     return (
       <>
         {(label) ? (
@@ -34,8 +22,8 @@ class TextField extends React.Component {
             {label}
           </div>
         ) : ''}
-        <input type="text" {...rest} value={value} onChange={this.eventChangeHandler} style={{ ...textFieldStyle.base, ...errorStyle }} />
-        {(error) ? <info style={{ color: 'red', fontSize: '14px' }}>{error}</info> : ''}
+        <input type="text" {...rest} style={{ ...textFieldStyle.base, ...errorStyle }} />
+        {(error) ? <span style={{ color: 'red', fontSize: '14px' }}>{error}</span> : ''}
       </>
     );
   }
@@ -49,7 +37,5 @@ TextField.propTypes = {
 TextField.defaultProps = {
   error: '',
   label: 'Please Enter',
-  // value: '',
-  // onChange: () => {},
 };
 export default TextField;

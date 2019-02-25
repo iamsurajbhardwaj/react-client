@@ -3,7 +3,6 @@ const style = {
     padding: '8px',
     border: '1px solid',
     borderRadius: '5px',
-    width: '100%',
   },
   error: {
     borderColor: 'red',
