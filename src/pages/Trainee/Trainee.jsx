@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import AddDialog from './Components/AddDialog/AddDialog';
+import Navbar from '../components/Navbar/Navbar';
 
 
 class Trainee extends React.Component {
@@ -32,10 +33,11 @@ class Trainee extends React.Component {
   }
 
   render() {
-    console.log('PARENT DATA', this.state);
+    console.log('Trainee data after creation', this.state);
     const { open } = this.state;
     return (
       <div>
+        <Navbar />
         <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
           Add Trainee
         </Button>
