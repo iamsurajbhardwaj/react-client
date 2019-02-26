@@ -3,10 +3,15 @@ import Button from '@material-ui/core/Button';
 import AddDialog from './Components/AddDialog/AddDialog';
 
 
-class ChildrenDemo extends React.Component {
+class Trainee extends React.Component {
   constructor(props) {
     super(props);
-    this.state = ({ open: '' });
+    this.state = ({
+      open: '',
+      name: '',
+      email: '',
+      password: '',
+    });
   }
 
   handleClickOpen = () => {
@@ -17,17 +22,27 @@ class ChildrenDemo extends React.Component {
     this.setState({ open: false });
   };
 
+  handleData = (data) => {
+    const { name, email, password } = data;
+    this.setState({
+      name,
+      email,
+      password,
+    });
+  }
+
   render() {
+    console.log('PARENT DATA', this.state);
     const { open } = this.state;
     return (
       <div>
         <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
           Add Trainee
         </Button>
-        <AddDialog open={open} />
+        {open ? <AddDialog open={open} handleClose={this.handleClose} handleData={this.handleData} /> : ''}
       </div>
     );
   }
 }
 
-export default ChildrenDemo;
+export default Trainee;

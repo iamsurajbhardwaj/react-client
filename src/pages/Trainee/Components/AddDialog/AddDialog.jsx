@@ -17,14 +17,15 @@ import * as constants from '../../../../configs/constants';
 class AddDialog extends React.Component {
   constructor(props) {
     super(props);
-    // console.log('constructor', this.state);
     this.state = {
       name: '',
       email: '',
       password: '',
       confirmPassword: '',
-      errorCount: '',
-      showPassword: false,
+      passwordVisibility: {
+        showPassword: false,
+        showConfirmPassword: false,
+      },
       errors: {
         name: '',
         email: '',
@@ -46,8 +47,11 @@ class AddDialog extends React.Component {
     };
   }
 
-  handleClickShowPassword = () => {
-    this.setState(state => ({ showPassword: !state.showPassword }));
+  handleClickShowPassword = field => () => {
+    const { passwordVisibility } = this.state;
+    this.setState({
+      passwordVisibility: { ...passwordVisibility, [field]: !passwordVisibility[field] },
+    });
   };
 
   handleChange = field => (event) => {
@@ -82,15 +86,6 @@ class AddDialog extends React.Component {
             hasError: { ...hasError, [field]: false },
           });
         }
-        if (field === 'confirmPassword') {
-          console.log('>>>>>>>>', field);
-          if (rest.password !== rest.confirmPassword) {
-            this.setState({
-              errors: { ...errors, confirmPassword: 'Password Not Match' },
-              hasError: { ...hasError, confirmPassword: true },
-            });
-          }
-        }
       });
   }
 
@@ -117,10 +112,18 @@ class AddDialog extends React.Component {
     return result;
   }
 
+  onSubmitClick = () => {
+    const { name, email, password } = this.state;
+    const { handleClose, handleData } = this.props;
+    handleData({ name, email, password });
+    handleClose();
+  }
+
   render() {
-    console.log('render', this.state);
-    const { open } = this.props;
-    const { errors, name, email, password, confirmPassword, hasError, showPassword } = this.state;
+    const { open, handleClose } = this.props;
+    const {
+      errors, name, email, password, confirmPassword, hasError, passwordVisibility,
+    } = this.state;
     return (
       <div>
         <Dialog
@@ -172,13 +175,13 @@ class AddDialog extends React.Component {
               }}
               fullWidth
             />
-            <Grid container spacing={12}>
+            <Grid container spacing={16}>
               <Grid item xs={6}>
                 <TextField
                   id="outlined-password"
                   label="Password"
                   className="textField"
-                  type={showPassword ? 'text' : 'password'}
+                  type={passwordVisibility.showPassword ? 'text' : 'password'}
                   value={password}
                   error={hasError.password}
                   helperText={errors.password}
@@ -191,9 +194,9 @@ class AddDialog extends React.Component {
                       <InputAdornment position="start">
                         <IconButton
                           aria-label="Toggle password visibility"
-                          onClick={this.handleClickShowPassword}
+                          onClick={this.handleClickShowPassword('showPassword')}
                         >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                          {passwordVisibility.showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -203,7 +206,7 @@ class AddDialog extends React.Component {
               <Grid item xs={6}>
                 <TextField
                   id="outlined-confirm-password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={passwordVisibility.showConfirmPassword ? 'text' : 'password'}
                   label="Confirm Password"
                   className="textField"
                   value={confirmPassword}
@@ -218,9 +221,12 @@ class AddDialog extends React.Component {
                       <InputAdornment position="start">
                         <IconButton
                           aria-label="Toggle password visibility"
-                          onClick={this.handleClickShowPassword}
+                          onClick={this.handleClickShowPassword('showConfirmPassword')}
                         >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                          {passwordVisibility.showConfirmPassword
+                            ? <Visibility />
+                            : <VisibilityOff />
+                          }
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -230,11 +236,11 @@ class AddDialog extends React.Component {
             </Grid>
           </DialogContent>
           <DialogActions>
-            <Button color="primary">
+            <Button color="primary" onClick={handleClose}>
               Cancel
             </Button>
             {
-              this.buttonCheck() ? <Button color="primary">Submit</Button> : <Button disabled color="primary">Submit</Button>
+              this.buttonCheck() ? <Button color="primary" onClick={this.onSubmitClick}>Submit</Button> : <Button disabled color="primary">Submit</Button>
             }
           </DialogActions>
         </Dialog>
@@ -247,4 +253,6 @@ export default AddDialog;
 
 AddDialog.propTypes = {
   open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  handleData: PropTypes.func.isRequired,
 };

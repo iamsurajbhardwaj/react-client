@@ -69,10 +69,25 @@ export const schema = yup.object().shape({
 });
 
 export const schema1 = yup.object().shape({
-  name: yup.string().min(3).required().label('Name'),
-  email: yup.string().email().required().label('Email'),
-  password: yup.string().required().label('Password'),
-  confirmPassword: yup.string().required().label('Confirm password'),
+  name: yup
+    .string()
+    .min(3)
+    .required()
+    .label('Name'),
+  email: yup
+    .string()
+    .email()
+    .required()
+    .label('Email'),
+  password: yup.string()
+    .min(8, 'Password is too short - should be 8 chars minimum.')
+    .matches(/^(?=.*\d).{4,8}$/, 'Password must contain at-least one number.')
+    .required('Password must be required.'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Password not match')
+    .required()
+    .label('Confirm password'),
 });
 
 export const state = {
