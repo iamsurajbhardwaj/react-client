@@ -40,7 +40,7 @@ class Math extends React.Component {
 Math.propTypes = {
   first: PropTypes.number.isRequired,
   second: PropTypes.number.isRequired,
-  operator: PropTypes.oneOf('+', '-', '/', '*'),
+  operator: PropTypes.oneOf(['+', '-', '/', '*']),
   children: PropTypes.func,
 };
 
