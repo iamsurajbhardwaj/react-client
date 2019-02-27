@@ -58,38 +58,6 @@ export const checkStyle2 = {
   color: 'black',
   backgroundColor: 'green',
 };
-export const schema = yup.object().shape({
-  name: yup.string().min(3).required().label('Name'),
-  sport: yup
-    .string()
-    .required().label('Sport'),
-  role: yup
-    .string()
-    .required().label('Role'),
-});
-
-export const schema1 = yup.object().shape({
-  name: yup
-    .string()
-    .min(3)
-    .required()
-    .label('Name'),
-  email: yup
-    .string()
-    .email()
-    .required()
-    .label('Email'),
-  password: yup.string()
-    .min(8, 'Password is too short - should be 8 chars minimum.')
-    .matches(/^(?=.*\d).{4,8}$/, 'Password must contain at-least one number.')
-    .required('Password must be required.'),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('password'), null], 'Password not match')
-    .required()
-    .label('Confirm password'),
-});
-
 export const state = {
   name: '',
   sport: '',
@@ -116,3 +84,47 @@ export const mainStyle = {
   flexDirection: 'column',
   border: '2px solid black',
 };
+export const schema = yup.object().shape({
+  name: yup.string().min(3).required().label('Name'),
+  sport: yup
+    .string()
+    .required().label('Sport'),
+  role: yup
+    .string()
+    .required().label('Role'),
+});
+
+export const schemaLogin = yup.object().shape({
+  email: yup
+    .string()
+    .email()
+    .required('Email is a required field.'),
+  password: yup
+    .string()
+    .min(8, 'Password is too short - should be 8 chars minimum.')
+    .matches(/^(?=.*\d).{4,8}$/, 'Password must contain at-least one number.')
+    .required('Password is a required field'),
+});
+
+export const schema1 = yup.object().shape({
+  name: yup
+    .string()
+    .min(3)
+    .required()
+    .label('Name'),
+  email: yup
+    .string()
+    .email()
+    .required()
+    .label('Email'),
+  password: yup
+    .string()
+    .min(8, 'Password is too short - should be 8 chars minimum.')
+    .matches(/^(?=.*\d).{4,8}$/, 'Password must contain at-least one number.')
+    .required('Password must be required.'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Password not match')
+    .required()
+    .label('Confirm password'),
+});
