@@ -1,14 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Math } from '../../components';
-
-
-const mainStyle = {
-  display: 'flex',
-  padding: '2px',
-  flexDirection: 'column',
-  border: '2px solid black',
-};
+import { mainStyle } from '../../configs';
 
 class ChildrenDemo extends React.Component {
   constructor(props) {
@@ -35,8 +28,10 @@ class ChildrenDemo extends React.Component {
         </Typography>
         <Math first={5} second={10} operator="-">
           {
-            // eslint-disable-next-line react/jsx-one-expression-per-line
-            (first, second, operator, result) => <p>When we subtract {second} from {first} then we will get {result} as result.</p>
+            (first, second, operator, result) => (
+              // eslint-disable-next-line react/jsx-one-expression-per-line
+              <p>When we subtract {second} from {first} then we will get {result} as result.</p>
+            )
           }
         </Math>
         <Math first={5} second={10} operator="*">

@@ -1,13 +1,7 @@
 import React from 'react';
 import { TextField, Slider } from '../../components';
-import { PUBLIC_IMAGE_FOLDER } from '../../configs/constants';
+import { PUBLIC_IMAGE_FOLDER, mainStyle } from '../../configs';
 
-const mainStyle = {
-  display: 'flex',
-  padding: '2px',
-  flexDirection: 'column',
-  border: '2px solid black',
-};
 const imageArray = [
   `${PUBLIC_IMAGE_FOLDER}cloud.jpg`,
   `${PUBLIC_IMAGE_FOLDER}dns-server.png`,
