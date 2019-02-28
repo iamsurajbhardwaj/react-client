@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import { ExitToApp } from '@material-ui/icons';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { Link } from 'react-router-dom';
 
 const styles = {
   root: {
@@ -15,13 +16,17 @@ const styles = {
     fontSize: 10,
     marginBottom: 10,
   },
-  part1: {
-    flexGrow: 10,
-    fontSize: 15,
+  link: {
+    color: 'white',
+    textDecoration: 'none',
   },
-  part2: {
+  title: {
+    flexGrow: 10,
+    fontSize: '1.5rem',
+  },
+  menuOption: {
     flexGrow: 0.5,
-    fontSize: 15,
+    fontSize: '1rem',
   },
 };
 
@@ -32,29 +37,51 @@ function Navbar(props) {
       <CssBaseline />
       <AppBar position="static">
         <Toolbar>
-          <Typography color="inherit" className={classes.part1}>
-            Trainee Portal
-          </Typography>
-          <Typography color="inherit" className={classes.part2}>
-            TRAINEE
-          </Typography>
-          <Typography color="inherit" className={classes.part2}>
-            TEXTFIELD DEMO
-          </Typography>
-          <Typography color="inherit" className={classes.part2}>
-            INPUT DEMO
-          </Typography>
-          <Typography color="inherit" className={classes.part2}>
-            CHILDREN DEMO
+          <Typography color="inherit" className={classes.title}>
+          Trainee Portal
           </Typography>
           <Button
-            className={classes.part2}
+            className={classes.menuOption}
+            color="inherit"
+          >
+            <Link className={classes.link} to="/">
+            Trainee
+            </Link>
+          </Button>
+          <Button
+            className={classes.menuOption}
+            color="inherit"
+          >
+            <Link className={classes.link} to="/text-field-demo">
+            TEXTFIELD DEMO
+            </Link>
+          </Button>
+          <Button
+            className={classes.menuOption}
+            color="inherit"
+          >
+            <Link className={classes.link} to="/input-demo">
+            INPUT DEMO
+            </Link>
+          </Button>
+          <Button
+            className={classes.menuOption}
+            color="inherit"
+          >
+            <Link className={classes.link} to="/children-demo">
+            CHILDREN DEMO
+            </Link>
+          </Button>
+          <Button
+            className={classes.menuOption}
             color="inherit"
           >
             <InputAdornment position="start">
               <ExitToApp />
             </InputAdornment>
-            Logout
+            <Link className={classes.link} to="/logout">
+              Logout
+            </Link>
           </Button>
         </Toolbar>
       </AppBar>

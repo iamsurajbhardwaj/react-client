@@ -142,13 +142,14 @@ class Login extends React.Component {
           <TextField
             id="outlined-email"
             label="Email"
-            className="textField"
+            className="email"
             value={email}
             error={hasError.email}
             helperText={errors.email}
             onChange={this.handleChange('email')}
             onBlur={this.getError('email')}
             margin="normal"
+            fullWidth
             variant="outlined"
             InputProps={{
               startAdornment: (
@@ -157,18 +158,18 @@ class Login extends React.Component {
                 </InputAdornment>
               ),
             }}
-            fullWidth
           />
           <TextField
             id="outlined-password"
             label="Password"
-            className="textField"
+            className="password"
             type={showPassword ? 'text' : 'password'}
             value={password}
             error={hasError.password}
             helperText={errors.password}
             onChange={this.handleChange('password')}
             onBlur={this.getError('password')}
+            fullWidth
             margin="normal"
             variant="outlined"
             InputProps={{

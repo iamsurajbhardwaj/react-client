@@ -73,7 +73,6 @@ class InputDemo extends React.Component {
 
   render() {
     const { name, sport, role, errors } = this.state;
-    console.log('state', this.state);
     let check = '';
     if (sport) check = constants[sport.toLowerCase()];
     return (
