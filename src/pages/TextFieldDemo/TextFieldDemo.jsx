@@ -12,8 +12,8 @@ const TextFieldDemo = () => (
   <div style={mainStyle}>
     <Slider banner={imageArray} />
     <TextField disabled value="Disabled Input" label="This is a Disabled Input" />
-    <TextField value="Accessible" label="A Valid Input" />
-    <TextField value="101" label="An Input With Error" error="Could not be greater than" />
+    <TextField readOnly value="Accessible" label="A Valid Input" />
+    <TextField readOnly value="101" label="An Input With Error" error="Could not be greater than" />
   </div>
 );
 export default TextFieldDemo;

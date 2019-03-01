@@ -3,7 +3,21 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { AddDialog } from './Components';
+import { Table } from '../../components';
+import { mainStyle } from '../../configs/constants';
+import trainees from './data/trainee';
 
+const column = [
+  {
+    field: 'name',
+    align: 'center',
+    label: 'Name',
+  },
+  {
+    field: 'email',
+    label: 'Email-Address',
+  },
+];
 class TraineeList extends React.Component {
   constructor(props) {
     super(props);
@@ -35,14 +49,16 @@ class TraineeList extends React.Component {
   render() {
     console.log('Trainee data after creation', this.state);
     const { open } = this.state;
-    const { match: { path: Path }, match } = this.props;
-    console.log('>>>>>>>>>>>>>>>>>>>>', match);
+    const { match: { path: Path } } = this.props;
     return (
-      <div>
-        <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+      <div style={mainStyle}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
           Add Trainee
-        </Button>
+          </Button>
+        </div>
         {open ? <AddDialog open={open} handleClose={this.handleClose} handleData={this.handleData} /> : ''}
+        <Table id="table1" column={column} data={trainees} />
         <ul>
           <li>
             <Link to={`${Path}/5c6c47af7740654f0915fac9`}>

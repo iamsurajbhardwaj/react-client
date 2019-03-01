@@ -18,6 +18,7 @@ const styles = {
     margin: '3%',
   },
   media: {
+    width: 200,
     height: 200,
   },
   link: {
