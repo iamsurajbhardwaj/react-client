@@ -1,7 +1,7 @@
 import React from 'react';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import { Login, Trainee, TextFieldDemo, InputDemo, ChildrenDemo, NoMatch } from './pages';
+import { BrowserRouter as Router, Switch, Redirect, Route } from 'react-router-dom';
+import { Login, Trainee, TextFieldDemo, InputDemo, ChildrenDemo, NoMatch, Time } from './pages';
 import theme from './theme';
 import { AuthRoutes, PrivateRoutes } from './routes';
 
@@ -10,11 +10,15 @@ const App = () => (
     <Router>
       <Switch>
         <AuthRoutes exact path="/login" component={Login} />
-        <PrivateRoutes exact path="/" component={Trainee} />
-        <PrivateRoutes path="/text-field-demo" component={TextFieldDemo} />
+        <Route exact path="/">
+          <Redirect to="/trainee" />
+        </Route>
+        <PrivateRoutes path="/trainee" component={Trainee} />
+        <PrivateRoutes exact path="/text-field-demo" component={TextFieldDemo} />
         <PrivateRoutes exact path="/input-demo" component={InputDemo} />
         <PrivateRoutes exact path="/children-demo" component={ChildrenDemo} />
         <PrivateRoutes component={NoMatch} />
+        <Time />
       </Switch>
     </Router>
   </MuiThemeProvider>

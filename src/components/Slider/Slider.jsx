@@ -3,24 +3,6 @@ import PropTypes from 'prop-types';
 import { getRandomNumber, getRoundRobinNumber } from '../../lib/utils/math';
 import { DEFAULT_BANNER_IMAGE } from '../../configs/constants';
 
-const defaultProps = {
-  altText: 'Default Banner',
-  banner: '',
-  defaultBanner: DEFAULT_BANNER_IMAGE,
-  duration: 2000,
-  height: 200,
-  random: false,
-};
-const propTypes = {
-  altText: PropTypes.string,
-  banner: PropTypes.arr,
-  defaultBanner: PropTypes.string,
-  duration: PropTypes.number,
-  height: PropTypes.number,
-  random: PropTypes.boolean,
-};
-
-
 class Slider extends React.Component {
   constructor(props) {
     super(props);
@@ -60,6 +42,21 @@ class Slider extends React.Component {
     );
   }
 }
-Slider.propTypes = propTypes;
-Slider.defaultProps = defaultProps;
+
+Slider.defaultProps = {
+  altText: 'Default Banner',
+  banner: '',
+  defaultBanner: DEFAULT_BANNER_IMAGE,
+  duration: 2000,
+  height: 200,
+  random: false,
+};
+Slider.propTypes = {
+  altText: PropTypes.string,
+  banner: PropTypes.arrayOf(PropTypes.string),
+  defaultBanner: PropTypes.string,
+  duration: PropTypes.number,
+  height: PropTypes.number,
+  random: PropTypes.bool,
+};
 export default Slider;

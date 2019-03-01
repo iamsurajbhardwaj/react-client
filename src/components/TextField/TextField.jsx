@@ -32,7 +32,6 @@ TextField.propTypes = {
   error: propTypes.string,
   label: propTypes.string,
   value: propTypes.string.isRequired,
-  onChange: propTypes.func.isRequired,
 };
 TextField.defaultProps = {
   error: '',

@@ -82,6 +82,7 @@ export const mainStyle = {
   display: 'flex',
   padding: '2px',
   flexDirection: 'column',
+  margin: '10px',
 };
 export const schema = yup.object().shape({
   name: yup.string().min(3).required().label('Name'),
