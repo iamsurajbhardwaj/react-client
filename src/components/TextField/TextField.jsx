@@ -1,5 +1,5 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import textFieldStyle from './style';
 
 class TextField extends React.Component {
@@ -29,9 +29,9 @@ class TextField extends React.Component {
   }
 }
 TextField.propTypes = {
-  error: propTypes.string,
-  label: propTypes.string,
-  value: propTypes.string.isRequired,
+  error: PropTypes.string,
+  label: PropTypes.string,
+  value: PropTypes.string.isRequired,
 };
 TextField.defaultProps = {
   error: '',
