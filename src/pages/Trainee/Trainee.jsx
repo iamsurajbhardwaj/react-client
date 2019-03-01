@@ -1,48 +1,24 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import { AddDialog } from './Components';
+import PropTypes from 'prop-types';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { TraineeList } from '.';
+import TraineeDetails from './TraineeDetails';
 
+const Trainee = (props) => {
+  const { match: { path: Path } } = props;
+  return (
+    <Router>
+      <Switch>
+        <Route exact path={`${Path}/:id`} component={TraineeDetails} />
+        <Route exact path={`${Path}`} component={TraineeList} />
+      </Switch>
+    </Router>
+  );
+};
 
-class Trainee extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = ({
-      open: '',
-      name: '',
-      email: '',
-      password: '',
-    });
-  }
+Trainee.propTypes = {
+  match: PropTypes.shape().isRequired,
+};
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleData = (data) => {
-    const { name, email, password } = data;
-    this.setState({
-      name,
-      email,
-      password,
-    });
-  }
-
-  render() {
-    console.log('Trainee data after creation', this.state);
-    const { open } = this.state;
-    return (
-      <div>
-        <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-          Add Trainee
-        </Button>
-        {open ? <AddDialog open={open} handleClose={this.handleClose} handleData={this.handleData} /> : ''}
-      </div>
-    );
-  }
-}
 
 export default Trainee;

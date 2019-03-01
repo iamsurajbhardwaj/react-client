@@ -41,7 +41,7 @@ class TextField extends React.Component {
             </label>
           ))
         }
-        {(error) ? <info style={{ color: 'red', fontSize: '14px' }}>{error}</info> : ''}
+        {(error) ? <p style={{ color: 'red', fontSize: '14px' }}>{error}</p> : ''}
       </>
     );
   }
@@ -50,8 +50,7 @@ TextField.propTypes = {
   error: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string.isRequired,
-  // onblur: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf,
+  options: PropTypes.arrayOf(PropTypes.string),
 };
 TextField.defaultProps = {
   error: '',

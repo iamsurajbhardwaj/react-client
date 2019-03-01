@@ -3,4 +3,5 @@ export { InputDemo } from './InputDemo';
 export { Login } from './Login';
 export { NoMatch } from './NoMatch';
 export { TextFieldDemo } from './TextFieldDemo';
-export { Trainee } from './Trainee';
+export { Trainee, TraineeList } from './Trainee';
+export { default as Time } from './Time';
