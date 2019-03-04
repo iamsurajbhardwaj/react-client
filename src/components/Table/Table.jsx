@@ -7,6 +7,16 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 
 const styles = theme => ({
   root: {
@@ -16,26 +26,49 @@ const styles = theme => ({
   },
   table: {
     minWidth: 700,
+    cursor: 'pointer',
+  },
+  link: {
+    color: theme.palette.common.black,
+    textDecoration: 'none',
+  },
+  row: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.grey[200],
+    },
+    '&:hover': {
+      backgroundColor: theme.palette.grey[400],
+    },
   },
 });
 
 function SimpleTable(props) {
-  const { classes, column, data, id } = props;
+  const { classes, columns, data, id, onselect, order, orderBy, onSort } = props;
 
-  const tableHead = column.map((item) => {
+  const tableHeadEntry = columns.map((item) => {
     const { field, label, ...rest } = item;
     return (
-      <TableCell key={field} {...rest}>{label}</TableCell>
+      <CustomTableCell key={field} {...rest}>
+        <TableSortLabel
+          active={orderBy === field}
+          direction={order}
+          onClick={onSort(order, field)}
+        >
+          {(!label) ? field : label}
+        </TableSortLabel>
+      </CustomTableCell>
     );
   });
-  const dataEntry = data.map((item) => {
-    const { id: Id } = item;
+  const dataEntry = data.map((row) => {
+    const { id: Id } = row;
     return (
-      <TableRow key={Id}>
-        {column.map((a) => {
-          const { align, field } = a;
+      <TableRow onClick={onselect(Id)} className={classes.row} key={row[id]}>
+        {columns.map((column) => {
+          const { align, field, format } = column;
           return (
-            <TableCell align={align} key={`${Id}.${field}`}>{item[field]}</TableCell>
+            <CustomTableCell align={align} key={`${Id}.${field}`}>
+              {(format) ? format(row[field]) : row[field] }
+            </CustomTableCell>
           );
         })}
       </TableRow>
@@ -45,8 +78,8 @@ function SimpleTable(props) {
     <Paper className={classes.root}>
       <Table key={id} className={classes.table}>
         <TableHead>
-          <TableRow key={id}>
-            {tableHead}
+          <TableRow className={classes.row} key={id}>
+            {tableHeadEntry}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -59,9 +92,13 @@ function SimpleTable(props) {
 
 SimpleTable.propTypes = {
   classes: PropTypes.shape().isRequired,
-  column: PropTypes.arrayOf(PropTypes.object).isRequired,
+  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   id: PropTypes.string.isRequired,
+  onselect: PropTypes.func.isRequired,
+  order: PropTypes.string.isRequired,
+  orderBy: PropTypes.string.isRequired,
+  onSort: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SimpleTable);
