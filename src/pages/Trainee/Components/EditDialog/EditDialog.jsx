@@ -5,11 +5,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import IconButton from '@material-ui/core/IconButton';
-import { Person, Email, VisibilityOff, Visibility } from '@material-ui/icons/';
+import { Person, Email } from '@material-ui/icons/';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import * as constants from '../../../../configs/constants';
 
@@ -20,50 +18,34 @@ class AddDialog extends React.Component {
     this.state = {
       name: '',
       email: '',
-      password: '',
-      confirmPassword: '',
-      passwordVisibility: {
-        showPassword: false,
-        showConfirmPassword: false,
-      },
       errors: {
         name: '',
         email: '',
-        password: '',
-        confirmPassword: '',
-      },
-      isTouched: {
-        name: false,
-        email: false,
-        password: false,
-        confirmPassword: false,
       },
       hasError: {
         name: false,
         email: false,
-        password: false,
-        confirmPassword: false,
       },
     };
   }
 
-  handleClickShowPassword = field => () => {
-    const { passwordVisibility } = this.state;
+  componentDidMount() {
+    const { data } = this.props;
+    const { name, email } = data;
     this.setState({
-      passwordVisibility: { ...passwordVisibility, [field]: !passwordVisibility[field] },
+      name,
+      email,
     });
-  };
+  }
 
   handleChange = field => (event) => {
-    const { isTouched } = this.state;
     this.setState({
       [field]: event.target.value,
-      isTouched: { ...isTouched, [field]: true },
     }, this.getError(field));
   };
 
   getError = field => () => {
-    const { errors, hasError, isTouched, ...rest } = this.state;
+    const { errors, hasError, ...rest } = this.state;
     constants.schema1.validate(rest, { abortEarly: false })
       .then(() => {
         this.setState({
@@ -90,40 +72,33 @@ class AddDialog extends React.Component {
   }
 
   buttonCheck = () => {
-    const { hasError, isTouched } = this.state;
+    const { hasError } = this.state;
     let notError = 0;
-    let touched = 0;
     let result = false;
     Object.keys(hasError).forEach((i) => {
       if (hasError[i] === false) {
         notError += 1;
       }
     });
-    Object.keys(isTouched).forEach((i) => {
-      if (isTouched[i] === true) {
-        touched += 1;
-      }
-    });
-    if (notError === 4 && touched === 4) {
+    if (notError === 2) {
       result = true;
-    } else if (notError !== 4 && touched !== 4) {
+    } else if (notError !== 2) {
       result = false;
     }
     return result;
   }
 
   onSubmitClick = () => {
-    const { name, email, password } = this.state;
+    const { name, email } = this.state;
     const { handleClose, handleData } = this.props;
-    handleData({ name, email, password }, 'Created');
-    handleClose('addDialog');
+    handleData({ name, email }, 'Updated');
+    handleClose('editDialog');
   }
 
   render() {
     const { open, handleClose } = this.props;
     const {
-      errors, name, email, password, confirmPassword, hasError, passwordVisibility,
-    } = this.state;
+      errors, name, email, hasError } = this.state;
     return (
       <div>
         <Dialog
@@ -175,68 +150,9 @@ class AddDialog extends React.Component {
               }}
               fullWidth
             />
-            <Grid container spacing={16}>
-              <Grid item xs={6}>
-                <TextField
-                  id="outlined-password"
-                  label="Password"
-                  className="textField"
-                  type={passwordVisibility.showPassword ? 'text' : 'password'}
-                  value={password}
-                  error={hasError.password}
-                  helperText={errors.password}
-                  onChange={this.handleChange('password')}
-                  onBlur={this.getError('password')}
-                  margin="normal"
-                  variant="outlined"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <IconButton
-                          aria-label="Toggle password visibility"
-                          onClick={this.handleClickShowPassword('showPassword')}
-                        >
-                          {passwordVisibility.showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  id="outlined-confirm-password"
-                  type={passwordVisibility.showConfirmPassword ? 'text' : 'password'}
-                  label="Confirm Password"
-                  className="textField"
-                  value={confirmPassword}
-                  error={hasError.confirmPassword}
-                  helperText={errors.confirmPassword}
-                  onChange={this.handleChange('confirmPassword')}
-                  onBlur={this.getError('confirmPassword')}
-                  margin="normal"
-                  variant="outlined"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <IconButton
-                          aria-label="Toggle password visibility"
-                          onClick={this.handleClickShowPassword('showConfirmPassword')}
-                        >
-                          {passwordVisibility.showConfirmPassword
-                            ? <Visibility />
-                            : <VisibilityOff />
-                          }
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-            </Grid>
           </DialogContent>
           <DialogActions>
-            <Button color="primary" onClick={() => handleClose('addDialog')}>
+            <Button color="primary" onClick={() => handleClose('editDialog')}>
               Cancel
             </Button>
             {
@@ -255,4 +171,5 @@ AddDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   handleData: PropTypes.func.isRequired,
+  data: PropTypes.objectOf(PropTypes.string).isRequired,
 };

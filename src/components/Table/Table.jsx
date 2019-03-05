@@ -7,7 +7,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import IconButton from '@material-ui/core/IconButton';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -15,6 +18,10 @@ const CustomTableCell = withStyles(theme => ({
   },
   body: {
     fontSize: 14,
+  },
+  footer: {
+    fontSize: 5,
+    backgroundColor: theme.palette.common.black,
   },
 }))(TableCell);
 
@@ -42,8 +49,21 @@ const styles = theme => ({
   },
 });
 
+
 function SimpleTable(props) {
-  const { classes, columns, data, id, onselect, order, orderBy, onSort } = props;
+  const { classes,
+    columns,
+    data,
+    id,
+    onselect,
+    order,
+    orderBy,
+    onSort,
+    count,
+    rowsPerPage,
+    page,
+    actions,
+    onChangePage } = props;
 
   const tableHeadEntry = columns.map((item) => {
     const { field, label, ...rest } = item;
@@ -59,18 +79,47 @@ function SimpleTable(props) {
       </CustomTableCell>
     );
   });
+
+  const tablePagination = () => {
+    if (!count) return null;
+    return (
+      <TableFooter>
+        <TableRow>
+          <TablePagination
+            rowsPerPageOptions={[false]}
+            count={count}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={onChangePage}
+          />
+        </TableRow>
+      </TableFooter>
+    );
+  };
   const dataEntry = data.map((row) => {
     const { id: Id } = row;
     return (
-      <TableRow onClick={onselect(Id)} className={classes.row} key={row[id]}>
+      <TableRow className={classes.row} key={row[id]}>
         {columns.map((column) => {
           const { align, field, format } = column;
           return (
-            <CustomTableCell align={align} key={`${Id}.${field}`}>
+            <CustomTableCell onClick={onselect(Id)} align={align} key={`${row[id]}.${field}`}>
               {(format) ? format(row[field]) : row[field] }
             </CustomTableCell>
           );
         })}
+        <CustomTableCell>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {actions.map((action) => {
+              const { icon, handler } = action;
+              return (
+                <IconButton onClick={handler(row)}>
+                  {icon}
+                </IconButton>
+              );
+            })}
+          </div>
+        </CustomTableCell>
       </TableRow>
     );
   });
@@ -85,6 +134,7 @@ function SimpleTable(props) {
         <TableBody>
           {dataEntry}
         </TableBody>
+        {tablePagination()}
       </Table>
     </Paper>
   );
@@ -99,6 +149,15 @@ SimpleTable.propTypes = {
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
   onSort: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  actions: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
+  page: PropTypes.number,
+  rowsPerPage: PropTypes.number,
+};
+SimpleTable.defaultProps = {
+  page: 0,
+  rowsPerPage: 100,
 };
 
 export default withStyles(styles)(SimpleTable);
