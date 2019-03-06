@@ -115,7 +115,7 @@ class AddDialog extends React.Component {
   onSubmitClick = () => {
     const { name, email, password } = this.state;
     const { handleClose, handleData } = this.props;
-    handleData({ name, email, password }, 'Created');
+    handleData({ name, email, password }, 'trainee created');
     handleClose('addDialog');
   }
 
