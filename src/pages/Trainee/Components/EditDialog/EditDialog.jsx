@@ -72,24 +72,17 @@ class AddDialog extends React.Component {
   }
 
   buttonCheck = () => {
-    const { hasError, name, email } = this.state;
-    const { data } = this.props;
+    const { hasError } = this.state;
     let notError = 0;
-    let dataChange = false;
     let result = false;
     Object.keys(hasError).forEach((i) => {
       if (hasError[i] === false) {
         notError += 1;
       }
     });
-
-    if ((name !== data.name) || (email !== data.email)) {
-      dataChange = true;
-    }
-
-    if ((notError === 2) && (dataChange)) {
+    if (notError === 2) {
       result = true;
-    } else {
+    } else if (notError !== 2) {
       result = false;
     }
     return result;

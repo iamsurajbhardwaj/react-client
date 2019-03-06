@@ -108,7 +108,7 @@ function SimpleTable(props) {
             </CustomTableCell>
           );
         })}
-        <TableCell>
+        <CustomTableCell>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {actions.map((action) => {
               const { icon, handler } = action;
@@ -119,7 +119,7 @@ function SimpleTable(props) {
               );
             })}
           </div>
-        </TableCell>
+        </CustomTableCell>
       </TableRow>
     );
   });

@@ -8,7 +8,6 @@ import { Table } from '../../components';
 import { mainStyle } from '../../configs/constants';
 import trainees from './data/trainee';
 import { getDateFormatted } from '../../lib';
-import { SnackBarContext, SnackBar } from '../../contexts/SnackBarProvider';
 
 class TraineeList extends React.Component {
   columns = [
@@ -114,50 +113,41 @@ class TraineeList extends React.Component {
     const { order, orderby, page, dialogOpen, row } = this.state;
     const { editDialog, deleteDialog, addDialog } = dialogOpen;
     return (
-      <>
-        <SnackBarContext.Consumer>
-          {
-            (value) => {
-              value();
-            }
-          }
-        </SnackBarContext.Consumer>
-        <div style={mainStyle}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button size="small" variant="outlined" color="primary" onClick={this.handleClickOpen}>
+      <div style={mainStyle}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button size="small" variant="outlined" color="primary" onClick={this.handleClickOpen}>
           Add Trainee
-            </Button>
-          </div>
-          {addDialog ? <AddDialog open={addDialog} handleClose={this.handleClose} handleData={this.handleData} /> : ''}
-          {deleteDialog ? <DeleteDialog open={deleteDialog} data={row} handleClose={this.handleClose} handleData={this.handleData} /> : ''}
-          {editDialog ? <EditDialog open={editDialog} data={row} handleClose={this.handleClose} handleData={this.handleData} /> : ''}
-          <Table
-            id="id"
-            actions={
-              [
-                {
-                  icon: <EditIcon />,
-                  handler: this.handleEditDialogOpen,
-                },
-                {
-                  icon: <DeleteIcon />,
-                  handler: this.handleDeleteDialogOpen,
-                },
-              ]
-            }
-            columns={this.columns}
-            data={trainees}
-            orderBy={orderby}
-            order={order}
-            count={100}
-            rowsPerPage={10}
-            page={page}
-            onSort={this.handleSort}
-            onselect={this.handleSelect}
-            onChangePage={this.handlePageChange}
-          />
+          </Button>
         </div>
-      </>
+        {addDialog ? <AddDialog open={addDialog} handleClose={this.handleClose} handleData={this.handleData} /> : ''}
+        {deleteDialog ? <DeleteDialog open={deleteDialog} data={row} handleClose={this.handleClose} handleData={this.handleData} /> : ''}
+        {editDialog ? <EditDialog open={editDialog} data={row} handleClose={this.handleClose} handleData={this.handleData} /> : ''}
+        <Table
+          id="id"
+          actions={
+            [
+              {
+                icon: <EditIcon />,
+                handler: this.handleEditDialogOpen,
+              },
+              {
+                icon: <DeleteIcon />,
+                handler: this.handleDeleteDialogOpen,
+              },
+            ]
+          }
+          columns={this.columns}
+          data={trainees}
+          orderBy={orderby}
+          order={order}
+          count={100}
+          rowsPerPage={10}
+          page={page}
+          onSort={this.handleSort}
+          onselect={this.handleSelect}
+          onChangePage={this.handlePageChange}
+        />
+      </div>
     );
   }
 }
