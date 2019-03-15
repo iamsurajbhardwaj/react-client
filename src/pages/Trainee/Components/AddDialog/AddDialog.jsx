@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { Person, Email, VisibilityOff, Visibility } from '@material-ui/icons/';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import * as constants from '../../../../configs/constants';
+import { SnackbarConsumer } from '../../../../contexts/SnackbarProvider';
 
 
 class AddDialog extends React.Component {
@@ -112,11 +113,12 @@ class AddDialog extends React.Component {
     return result;
   }
 
-  onSubmitClick = () => {
+  onSubmitClick = snackBarOpen => () => {
     const { name, email, password } = this.state;
     const { handleClose, handleData } = this.props;
     handleData({ name, email, password }, 'Created');
     handleClose('addDialog');
+    snackBarOpen('Trainee created successfully', 'success');
   }
 
   render() {
@@ -126,124 +128,130 @@ class AddDialog extends React.Component {
     } = this.state;
     return (
       <div>
-        <Dialog
-          open={open}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="Add-trainee" color="primary">Add Trainee</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
+        <SnackbarConsumer>
+          {snackBarOpen => (
+            <Dialog
+              open={open}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="Add-trainee" color="primary">Add Trainee</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
               Enter your trainee details
-            </DialogContentText>
-            <TextField
-              id="outlined-name"
-              label="Name"
-              className="textField"
-              value={name}
-              error={hasError.name}
-              helperText={errors.name}
-              onChange={this.handleChange('name')}
-              onBlur={this.getError('name')}
-              margin="normal"
-              variant="outlined"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Person />
-                  </InputAdornment>
-                ),
-              }}
-              fullWidth
-            />
-            <TextField
-              id="outlined-email"
-              label="Email"
-              className="textField"
-              value={email}
-              error={hasError.email}
-              helperText={errors.email}
-              onChange={this.handleChange('email')}
-              onBlur={this.getError('email')}
-              margin="normal"
-              variant="outlined"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Email />
-                  </InputAdornment>
-                ),
-              }}
-              fullWidth
-            />
-            <Grid container spacing={16}>
-              <Grid item xs={6}>
+                </DialogContentText>
                 <TextField
-                  id="outlined-password"
-                  label="Password"
+                  id="outlined-name"
+                  label="Name"
                   className="textField"
-                  type={passwordVisibility.showPassword ? 'text' : 'password'}
-                  value={password}
-                  error={hasError.password}
-                  helperText={errors.password}
-                  onChange={this.handleChange('password')}
-                  onBlur={this.getError('password')}
+                  value={name}
+                  error={hasError.name}
+                  helperText={errors.name}
+                  onChange={this.handleChange('name')}
+                  onBlur={this.getError('name')}
                   margin="normal"
                   variant="outlined"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <IconButton
-                          aria-label="Toggle password visibility"
-                          onClick={this.handleClickShowPassword('showPassword')}
-                        >
-                          {passwordVisibility.showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
+                        <Person />
                       </InputAdornment>
                     ),
                   }}
+                  fullWidth
                 />
-              </Grid>
-              <Grid item xs={6}>
                 <TextField
-                  id="outlined-confirm-password"
-                  type={passwordVisibility.showConfirmPassword ? 'text' : 'password'}
-                  label="Confirm Password"
+                  id="outlined-email"
+                  label="Email"
                   className="textField"
-                  value={confirmPassword}
-                  error={hasError.confirmPassword}
-                  helperText={errors.confirmPassword}
-                  onChange={this.handleChange('confirmPassword')}
-                  onBlur={this.getError('confirmPassword')}
+                  value={email}
+                  error={hasError.email}
+                  helperText={errors.email}
+                  onChange={this.handleChange('email')}
+                  onBlur={this.getError('email')}
                   margin="normal"
                   variant="outlined"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <IconButton
-                          aria-label="Toggle password visibility"
-                          onClick={this.handleClickShowPassword('showConfirmPassword')}
-                        >
-                          {passwordVisibility.showConfirmPassword
-                            ? <Visibility />
-                            : <VisibilityOff />
-                          }
-                        </IconButton>
+                        <Email />
                       </InputAdornment>
                     ),
                   }}
+                  fullWidth
                 />
-              </Grid>
-            </Grid>
-          </DialogContent>
-          <DialogActions>
-            <Button color="primary" onClick={() => handleClose('addDialog')}>
+                <Grid container spacing={16}>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-password"
+                      label="Password"
+                      className="textField"
+                      type={passwordVisibility.showPassword ? 'text' : 'password'}
+                      value={password}
+                      error={hasError.password}
+                      helperText={errors.password}
+                      onChange={this.handleChange('password')}
+                      onBlur={this.getError('password')}
+                      margin="normal"
+                      variant="outlined"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <IconButton
+                              aria-label="Toggle password visibility"
+                              onClick={this.handleClickShowPassword('showPassword')}
+                            >
+                              {passwordVisibility.showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-confirm-password"
+                      type={passwordVisibility.showConfirmPassword ? 'text' : 'password'}
+                      label="Confirm Password"
+                      className="textField"
+                      value={confirmPassword}
+                      error={hasError.confirmPassword}
+                      helperText={errors.confirmPassword}
+                      onChange={this.handleChange('confirmPassword')}
+                      onBlur={this.getError('confirmPassword')}
+                      margin="normal"
+                      variant="outlined"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <IconButton
+                              aria-label="Toggle password visibility"
+                              onClick={this.handleClickShowPassword('showConfirmPassword')}
+                            >
+                              {passwordVisibility.showConfirmPassword
+                                ? <Visibility />
+                                : <VisibilityOff />
+                              }
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              </DialogContent>
+              <DialogActions>
+                <Button color="primary" onClick={() => handleClose('addDialog')}>
               Cancel
-            </Button>
-            {
-              this.buttonCheck() ? <Button color="primary" onClick={this.onSubmitClick}>Submit</Button> : <Button disabled color="primary">Submit</Button>
-            }
-          </DialogActions>
-        </Dialog>
+                </Button>
+                {
+                  this.buttonCheck() ? <Button color="primary" onClick={this.onSubmitClick(snackBarOpen)}>Submit</Button> : <Button disabled color="primary">Submit</Button>
+                }
+              </DialogActions>
+            </Dialog>
+          )}
+
+        </SnackbarConsumer>
+
       </div>
     );
   }

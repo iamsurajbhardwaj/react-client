@@ -10,6 +10,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import { Person, Email } from '@material-ui/icons/';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import * as constants from '../../../../configs/constants';
+import { SnackbarConsumer } from '../../../../contexts/SnackbarProvider';
 
 
 class AddDialog extends React.Component {
@@ -72,7 +73,9 @@ class AddDialog extends React.Component {
   }
 
   buttonCheck = () => {
-    const { hasError } = this.state;
+    const { hasError, name, email } = this.state;
+    const { data } = this.props;
+    let touched = false;
     let notError = 0;
     let result = false;
     Object.keys(hasError).forEach((i) => {
@@ -80,7 +83,10 @@ class AddDialog extends React.Component {
         notError += 1;
       }
     });
-    if (notError === 2) {
+    if (data.name !== name || data.email !== email) {
+      touched = true;
+    }
+    if (notError === 2 && touched) {
       result = true;
     } else if (notError !== 2) {
       result = false;
@@ -88,11 +94,12 @@ class AddDialog extends React.Component {
     return result;
   }
 
-  onSubmitClick = () => {
+  onSubmitClick = snackBarOpen => () => {
     const { name, email } = this.state;
     const { handleClose, handleData } = this.props;
     handleData({ name, email }, 'Updated');
     handleClose('editDialog');
+    snackBarOpen('Trainee Updated Successfully', 'success');
   }
 
   render() {
@@ -101,65 +108,70 @@ class AddDialog extends React.Component {
       errors, name, email, hasError } = this.state;
     return (
       <div>
-        <Dialog
-          open={open}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="Add-trainee" color="primary">Add Trainee</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
+        <SnackbarConsumer>
+          {snackBaropen => (
+            <Dialog
+              open={open}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="Add-trainee" color="primary">Add Trainee</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
               Enter your trainee details
-            </DialogContentText>
-            <TextField
-              id="outlined-name"
-              label="Name"
-              className="textField"
-              value={name}
-              error={hasError.name}
-              helperText={errors.name}
-              onChange={this.handleChange('name')}
-              onBlur={this.getError('name')}
-              margin="normal"
-              variant="outlined"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Person />
-                  </InputAdornment>
-                ),
-              }}
-              fullWidth
-            />
-            <TextField
-              id="outlined-email"
-              label="Email"
-              className="textField"
-              value={email}
-              error={hasError.email}
-              helperText={errors.email}
-              onChange={this.handleChange('email')}
-              onBlur={this.getError('email')}
-              margin="normal"
-              variant="outlined"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Email />
-                  </InputAdornment>
-                ),
-              }}
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button color="primary" onClick={() => handleClose('editDialog')}>
+                </DialogContentText>
+                <TextField
+                  id="outlined-name"
+                  label="Name"
+                  className="textField"
+                  value={name}
+                  error={hasError.name}
+                  helperText={errors.name}
+                  onChange={this.handleChange('name')}
+                  onBlur={this.getError('name')}
+                  margin="normal"
+                  variant="outlined"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Person />
+                      </InputAdornment>
+                    ),
+                  }}
+                  fullWidth
+                />
+                <TextField
+                  id="outlined-email"
+                  label="Email"
+                  className="textField"
+                  value={email}
+                  error={hasError.email}
+                  helperText={errors.email}
+                  onChange={this.handleChange('email')}
+                  onBlur={this.getError('email')}
+                  margin="normal"
+                  variant="outlined"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Email />
+                      </InputAdornment>
+                    ),
+                  }}
+                  fullWidth
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button color="primary" onClick={() => handleClose('editDialog')}>
               Cancel
-            </Button>
-            {
-              this.buttonCheck() ? <Button color="primary" onClick={this.onSubmitClick}>Submit</Button> : <Button disabled color="primary">Submit</Button>
-            }
-          </DialogActions>
-        </Dialog>
+                </Button>
+                {
+                  this.buttonCheck() ? <Button color="primary" onClick={this.onSubmitClick(snackBaropen)}>Submit</Button> : <Button disabled color="primary">Submit</Button>
+                }
+              </DialogActions>
+            </Dialog>
+          )}
+        </SnackbarConsumer>
+
       </div>
     );
   }
