@@ -110,10 +110,10 @@ function SimpleTable(props) {
         })}
         <CustomTableCell>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {actions.map((action) => {
+            {actions.map((action, index) => {
               const { icon, handler } = action;
               return (
-                <IconButton onClick={handler(row)}>
+                <IconButton key={index} onClick={handler(row)}>
                   {icon}
                 </IconButton>
               );

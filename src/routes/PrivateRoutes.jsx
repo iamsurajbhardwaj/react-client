@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { PrivateLayout } from '../layouts';
 
@@ -7,9 +7,9 @@ const PrivateRoutes = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={matchProps => (
-      <PrivateLayout>
-        <Component {...matchProps} />
-      </PrivateLayout>
+      localStorage.token ? (<PrivateLayout>
+      <Component {...matchProps} />
+    </PrivateLayout>) : <Redirect to='/' />
     )}
   />
 );
