@@ -13,7 +13,7 @@ const App = () => (
         <Switch>
           <AuthRoutes exact path="/login" component={Login} />
           <Route exact path="/">
-            <Redirect to="/login" />
+            <Redirect to="/trainee" />
           </Route>
           <PrivateRoutes path="/trainee" component={Trainee} />
           <PrivateRoutes exact path="/text-field-demo" component={TextFieldDemo} />

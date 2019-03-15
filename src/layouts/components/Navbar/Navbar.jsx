@@ -32,9 +32,6 @@ const styles = {
 
 function Navbar(props) {
   const { classes } = props;
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -78,12 +75,11 @@ function Navbar(props) {
           <Button
             className={classes.menuOption}
             color="inherit"
-            onClick={() => handleLogout()}
           >
             <InputAdornment position="start">
               <ExitToApp />
             </InputAdornment>
-            <Link className={classes.link} to="/login">
+            <Link className={classes.link} to="/logout">
               Logout
             </Link>
           </Button>

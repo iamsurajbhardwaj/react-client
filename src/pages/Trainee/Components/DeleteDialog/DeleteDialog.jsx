@@ -19,7 +19,7 @@ const DeleteDialog = (props) => {
     if (moment(createdAt).isBefore('2019-02-14')) {
       snackBarOpen('Trainee deleted successfully', 'success');
     } else {
-      snackBarOpen('Invalid Request', 'error');
+      snackBarOpen('Not able to delete', 'error');
     }
   };
   return (
