@@ -11,7 +11,10 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import IconButton from '@material-ui/core/IconButton';
 import { Email, VisibilityOff, Visibility } from '@material-ui/icons/';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { schemaLogin } from '../../configs/constants';
+import { callApi } from '../../lib';
+import { SnackbarConsumer } from '../../contexts';
 
 const styles = theme => ({
   main: {
@@ -47,6 +50,7 @@ class Login extends React.Component {
       email: '',
       password: '',
       showPassword: false,
+      loading: false,
       errors: {
         email: '',
         password: '',
@@ -103,6 +107,24 @@ class Login extends React.Component {
       });
   }
 
+  handleClick =  async (snackBarOpen) => {
+    this.setState({
+      loading: true,
+    })
+    const { history } = this.props;
+    const { email, password } = this.state;
+    const result = await callApi('post', '/user/login', { email, password });
+    if (result.data) {
+      const { data } = result.data;
+      localStorage.setItem('token', data);
+      history.push('/trainee')
+    }
+    this.setState({
+      loading: false,
+    })
+    snackBarOpen(result.message, 'error')
+  }
+
   buttonCheck = () => {
     const { hasError, isTouched } = this.state;
     let notError = 0;
@@ -128,9 +150,11 @@ class Login extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { email, password, hasError, errors, showPassword } = this.state;
+    const { email, password, hasError, errors, showPassword, loading } = this.state;
     return (
-      <main className={classes.main}>
+      <SnackbarConsumer>
+        {snackBarOpen => (
+          <main className={classes.main}>
         <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -185,13 +209,22 @@ class Login extends React.Component {
               ),
             }}
           />
-          {
-            this.buttonCheck()
-              ? <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>Sign in</Button>
-              : <Button type="submit" disabled fullWidth variant="contained" color="primary" className={classes.submit}>Sign in</Button>
-          }
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            disabled={!(this.buttonCheck()) || (loading)}
+            className={classes.submit}
+            onClick={() => this.handleClick(snackBarOpen)}
+          >
+            {loading ? <CircularProgress /> : 'Sign in'}
+          </Button>
         </Paper>
       </main>
+        )}
+      </SnackbarConsumer>
+
     );
   }
 }
