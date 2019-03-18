@@ -11,8 +11,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import IconButton from '@material-ui/core/IconButton';
 import { Person, Email, VisibilityOff, Visibility } from '@material-ui/icons/';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import * as constants from '../../../../configs/constants';
 import { SnackbarConsumer } from '../../../../contexts/SnackbarProvider';
+import { callApi } from '../../../../lib';
 
 
 class AddDialog extends React.Component {
@@ -22,6 +24,7 @@ class AddDialog extends React.Component {
       name: '',
       email: '',
       password: '',
+      loading: false,
       confirmPassword: '',
       passwordVisibility: {
         showPassword: false,
@@ -113,18 +116,33 @@ class AddDialog extends React.Component {
     return result;
   }
 
-  onSubmitClick = snackBarOpen => () => {
-    const { name, email, password } = this.state;
+  onSubmitClick =  async (snackBarOpen) => {
     const { handleClose, handleData } = this.props;
+    const { name, email, password } = this.state;
+    this.setState({
+      loading: true,
+    })
     handleData({ name, email, password }, 'Created');
-    handleClose('addDialog');
-    snackBarOpen('Trainee created successfully', 'success');
+    const result = await callApi('post', '/trainee', { name, email, password });
+    if (result.data) {
+      this.setState({
+        loading: false,
+      })
+      const { message } = result.data;
+      snackBarOpen(message, 'success')
+      handleClose('addDialog');
+    } else {
+      snackBarOpen(result.message, 'error')
+      this.setState({
+        loading: false,
+      })
+    }
   }
 
   render() {
     const { open, handleClose } = this.props;
     const {
-      errors, name, email, password, confirmPassword, hasError, passwordVisibility,
+      errors, name, email, password, confirmPassword, hasError, passwordVisibility, loading,
     } = this.state;
     return (
       <div>
@@ -240,16 +258,20 @@ class AddDialog extends React.Component {
                 </Grid>
               </DialogContent>
               <DialogActions>
-                <Button color="primary" onClick={() => handleClose('addDialog')}>
-              Cancel
+                <Button color="primary" variant="contained" disabled={loading} onClick={() => handleClose('addDialog')}>
+                  Cancel
                 </Button>
-                {
-                  this.buttonCheck() ? <Button color="primary" onClick={this.onSubmitClick(snackBarOpen)}>Submit</Button> : <Button disabled color="primary">Submit</Button>
-                }
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={!(this.buttonCheck()) || (loading)}
+                  onClick={() => this.onSubmitClick(snackBarOpen)}
+                >
+                  {(loading) ? <CircularProgress /> : 'Submit'}
+                </Button>
               </DialogActions>
             </Dialog>
           )}
-
         </SnackbarConsumer>
 
       </div>

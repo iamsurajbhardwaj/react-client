@@ -11,6 +11,7 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import IconButton from '@material-ui/core/IconButton';
+import { withLoaderAndMessage } from '../HOC';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -35,16 +36,12 @@ const styles = theme => ({
     minWidth: 700,
     cursor: 'pointer',
   },
-  link: {
-    color: theme.palette.common.black,
-    textDecoration: 'none',
-  },
   row: {
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.grey[200],
+      backgroundColor: theme.palette.grey[100],
     },
     '&:hover': {
-      backgroundColor: theme.palette.grey[400],
+      backgroundColor: theme.palette.grey[300],
     },
   },
 });
@@ -79,7 +76,6 @@ function SimpleTable(props) {
       </CustomTableCell>
     );
   });
-
   const tablePagination = () => {
     if (!count) return null;
     return (
@@ -97,7 +93,7 @@ function SimpleTable(props) {
     );
   };
   const dataEntry = data.map((row) => {
-    const { id: Id } = row;
+    const { [id]: Id } = row;
     return (
       <TableRow className={classes.row} key={row[id]}>
         {columns.map((column) => {
@@ -160,4 +156,5 @@ SimpleTable.defaultProps = {
   rowsPerPage: 100,
 };
 
-export default withStyles(styles)(SimpleTable);
+export default withStyles(styles)(withLoaderAndMessage(SimpleTable));
+// export default withStyles(styles)(SimpleTabl e);
