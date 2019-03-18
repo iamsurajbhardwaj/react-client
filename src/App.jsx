@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Redirect, Route } from 'react-router-d
 import { Login, Trainee, TextFieldDemo, InputDemo, ChildrenDemo, NoMatch } from './pages';
 import theme from './theme';
 import { AuthRoutes, PrivateRoutes } from './routes';
-import { SnackbarProvider } from './contexts/SnackbarProvider';
+import { SnackbarProvider } from './contexts';
 
 const App = () => (
   <MuiThemeProvider theme={theme}>
@@ -13,7 +13,7 @@ const App = () => (
         <Switch>
           <AuthRoutes exact path="/login" component={Login} />
           <Route exact path="/">
-            <Redirect to="/trainee" />
+            <Redirect to="/login" />
           </Route>
           <PrivateRoutes path="/trainee" component={Trainee} />
           <PrivateRoutes exact path="/text-field-demo" component={TextFieldDemo} />

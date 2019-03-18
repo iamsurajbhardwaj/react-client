@@ -101,8 +101,6 @@ export const schemaLogin = yup.object().shape({
     .required('Email is a required field.'),
   password: yup
     .string()
-    .min(8, 'Password is too short - should be 8 chars minimum.')
-    .matches(/^(?=.*\d).{4,8}$/, 'Password must contain at-least one number.')
     .required('Password is a required field'),
 });
 

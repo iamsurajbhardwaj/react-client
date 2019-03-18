@@ -20,7 +20,6 @@ class Button extends React.Component {
 Button.propTypes = {
   disabled: PropTypes.bool,
   value: PropTypes.string.isRequired,
-  // onClick: PropTypes.func.isRequired,
   style: PropTypes.objectOf(PropTypes.string),
 };
 Button.defaultProps = {

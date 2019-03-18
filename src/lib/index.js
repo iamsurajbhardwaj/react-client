@@ -1,1 +1,1 @@
-export { getRandomNumber, getRoundRobinNumber, getDateFormatted } from './utils';
+export { getRandomNumber, getRoundRobinNumber, getDateFormatted, callApi } from './utils';
