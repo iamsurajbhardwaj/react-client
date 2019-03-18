@@ -8,9 +8,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link, Route } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { getDateFormatted } from '../../lib';
-import trainees from './data/trainee';
 import { NoMatch } from '../NoMatch';
+import { callApi } from '../../lib/utils/';
 
 
 const styles = {
@@ -27,23 +28,57 @@ const styles = {
   },
 };
 
-const TraineeDetails = (props) => {
-  const { classes, match: { params: { id } } } = props;
-  const card = () => {
-    const details = trainees.find(item => (item.id === id));
+class TraineeDetails extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = ({
+      traineeRecords: [],
+      loading: true,
+    });
+  }
+
+  componentDidMount = () => {
+    this.fetchTrainee();
+  }
+
+  fetchTrainee = async () => {
+    const result = await callApi('get', '/trainee')
+    const { data } = result.data;
+    const { records, count } = data;
+    this.setState({
+      traineeRecords: records,
+      loading: false,
+      count
+    })
+  }
+
+  card = () => {
+    const { classes, match: { params: { id } } } = this.props;
+    const { traineeRecords, loading } = this.state;
+    const details = traineeRecords.find(item => (item.originalId === id));
+    if (loading) {
+      return(
+        <div style={{position: 'absolute', top: 200, left: '48%',}}>
+          <CircularProgress size={60}/>
+        </div>
+        )}
     if (!details) return <Route component={NoMatch} />;
     const date = getDateFormatted(details.createdAt, 'dddd, MMMM Do YYYY, h:mm:ss a');
     return (
       <div>
         <Card className={classes.card}>
           <Grid container alignItems="center" spacing={16}>
-            <Grid item xs={3}>
-              <CardMedia
-                className={classes.media}
-                image={details.imagePath}
-                title={details.name}
-              />
-            </Grid>
+            { details.imagePath ?
+              (
+                <Grid item xs={3}>
+                  <CardMedia
+                  className={classes.media}
+                  image={details.imagePath}
+                  title={details.name}
+                  />
+                </Grid>
+              ) : ''
+            }
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
                 {details.name}
@@ -60,16 +95,18 @@ const TraineeDetails = (props) => {
             </Link>
           </Button>
         </div>
-
       </div>
     );
   };
-  return (
-    <div>
-      { card() }
-    </div>
-  );
-};
+
+  render() {
+    return(
+      <div>
+        { this.card() }
+      </div>
+    )
+  }
+}
 
 TraineeDetails.propTypes = {
   classes: PropTypes.shape().isRequired,
