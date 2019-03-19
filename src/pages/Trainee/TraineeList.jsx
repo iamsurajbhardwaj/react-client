@@ -188,11 +188,11 @@ class TraineeList extends React.Component {
           id="originalId"
           actions={[
             {
-              icon: <EditIcon />,
+              icon: <EditIcon fontSize="small" />,
               handler: this.handleEditDialogOpen
             },
             {
-              icon: <DeleteIcon />,
+              icon: <DeleteIcon fontSize="small" />,
               handler: this.handleDeleteDialogOpen
             }
           ]}
