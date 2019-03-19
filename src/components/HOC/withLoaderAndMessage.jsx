@@ -10,22 +10,16 @@ function withLoaderAndMessage(Component) {
 
     render() {
       const { loading, dataLength } = this.props;
-      if (loading === true && !dataLength) {
+      if (loading) {
         return (
           <div style={{position: 'absolute', top: 300, left: '48%',}}>
             <CircularProgress size={90}/>
           </div>
         );
-      } if (loading === false && dataLength) {
+      } if (!loading && dataLength) {
         return (
           <div>
             <Component {...this.props} />
-          </div>
-        );
-      } if (loading === true && dataLength) {
-        return (
-          <div style={{position: 'absolute', top: 300, left: '48%',}}>
-            <CircularProgress size={90} />
           </div>
         );
       }
