@@ -11,6 +11,8 @@ import { Person, Email } from '@material-ui/icons/';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import * as constants from '../../../../configs/constants';
 import { SnackbarConsumer } from '../../../../contexts/SnackbarProvider';
+import { callApi } from '../../../../lib';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 class AddDialog extends React.Component {
@@ -19,6 +21,7 @@ class AddDialog extends React.Component {
     this.state = {
       name: '',
       email: '',
+      loading: false,
       errors: {
         name: '',
         email: '',
@@ -94,22 +97,38 @@ class AddDialog extends React.Component {
     return result;
   }
 
-  onSubmitClick = snackBarOpen => () => {
+  onSubmitClick =  async (snackBarOpen) => {
+    const { handleClose, handleData, data } = this.props;
     const { name, email } = this.state;
-    const { handleClose, handleData } = this.props;
-    handleData({ name, email }, 'Updated');
-    handleClose('editDialog');
-    snackBarOpen('Trainee Updated Successfully', 'success');
+    const { originalId: id } = data;
+    this.setState({
+      loading: true,
+    })
+    const result = await callApi('put', '/trainee', { id, name, email });
+    const { message } = result.data;
+    if (result.data) {
+      this.setState({
+        loading: false,
+      })
+      snackBarOpen(message, 'success')
+      handleData({ name, email }, 'Updated');
+      handleClose('editDialog');
+    } else {
+      snackBarOpen(result.message, 'error')
+      this.setState({
+        loading: false,
+      })
+    }
   }
 
   render() {
     const { open, handleClose } = this.props;
     const {
-      errors, name, email, hasError } = this.state;
+      errors, name, email, hasError, loading } = this.state;
     return (
       <div>
         <SnackbarConsumer>
-          {snackBaropen => (
+          {snackBarOpen => (
             <Dialog
               open={open}
               aria-labelledby="form-dialog-title"
@@ -161,12 +180,17 @@ class AddDialog extends React.Component {
                 />
               </DialogContent>
               <DialogActions>
-                <Button color="primary" onClick={() => handleClose('editDialog')}>
+                <Button color="primary" variant="contained" disabled={loading} onClick={() => handleClose('editDialog')}>
               Cancel
                 </Button>
-                {
-                  this.buttonCheck() ? <Button color="primary" onClick={this.onSubmitClick(snackBaropen)}>Submit</Button> : <Button disabled color="primary">Submit</Button>
-                }
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={!(this.buttonCheck()) || (loading)}
+                  onClick={() => this.onSubmitClick(snackBarOpen)}
+                >
+                  {(loading) ? <CircularProgress /> : 'Submit'}
+                </Button>
               </DialogActions>
             </Dialog>
           )}

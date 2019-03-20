@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import { withLoaderAndMessage } from '../HOC';
 
 const CustomTableCell = withStyles(theme => ({
@@ -109,9 +109,9 @@ function SimpleTable(props) {
             {actions.map((action, index) => {
               const { icon, handler } = action;
               return (
-                <IconButton key={index} onClick={handler(row)}>
+                <Button key={index} onClick={handler(row)}>
                   {icon}
-                </IconButton>
+                </Button>
               );
             })}
           </div>

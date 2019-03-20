@@ -71,11 +71,10 @@ class TraineeList extends React.Component {
   };
 
   handlePageChange = (event, page) => {
-    this.setState({
+      this.setState({
       page,
       loading: true
     },()=>this.fetchTrainee());
-
   };
 
   handleClickOpen = () => {
@@ -105,11 +104,19 @@ class TraineeList extends React.Component {
     const { dialogOpen } = this.state;
     this.setState({
       dialogOpen: { ...dialogOpen, [field]: false }
-    });
+    }, ()=> this.fetchTrainee())
   };
 
   handleData = (data, field) => {
     console.log(`Successfully ${field}`, data);
+    const { page, traineeRecords } = this.state;
+    if(page !== 0 && traineeRecords.length === 1 ) {
+      console.log('handlepagechange');
+      this.setState({
+        page: page-1,
+        // loading: true
+      },()=>this.fetchTrainee());
+    }
   };
 
   handleSort = (order, field) => () => {
@@ -160,22 +167,19 @@ class TraineeList extends React.Component {
         ) : (
           ""
         )}
-        {deleteDialog ? (
-          <DeleteDialog
-            open={deleteDialog}
-            data={row}
-            handleClose={this.handleClose}
-            handleData={this.handleData}
-          />
-        ) : (
-          ""
-        )}
+        <DeleteDialog
+          open={deleteDialog}
+          data={row}
+          handleClose={this.handleClose}
+          handleData={this.handleData}
+        />
         {editDialog ? (
           <EditDialog
             open={editDialog}
             data={row}
             handleClose={this.handleClose}
             handleData={this.handleData}
+            fetchTrainee={this.fetchTrainee}
           />
         ) : (
           ""
@@ -184,11 +188,11 @@ class TraineeList extends React.Component {
           id="originalId"
           actions={[
             {
-              icon: <EditIcon />,
+              icon: <EditIcon fontSize="small" />,
               handler: this.handleEditDialogOpen
             },
             {
-              icon: <DeleteIcon />,
+              icon: <DeleteIcon fontSize="small" />,
               handler: this.handleDeleteDialogOpen
             }
           ]}

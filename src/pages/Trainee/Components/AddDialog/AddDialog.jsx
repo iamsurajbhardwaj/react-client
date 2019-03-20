@@ -122,7 +122,6 @@ class AddDialog extends React.Component {
     this.setState({
       loading: true,
     })
-    handleData({ name, email, password }, 'Created');
     const result = await callApi('post', '/trainee', { name, email, password });
     if (result.data) {
       this.setState({
@@ -130,6 +129,7 @@ class AddDialog extends React.Component {
       })
       const { message } = result.data;
       snackBarOpen(message, 'success')
+      handleData({ name, email, password }, 'Created');
       handleClose('addDialog');
     } else {
       snackBarOpen(result.message, 'error')
